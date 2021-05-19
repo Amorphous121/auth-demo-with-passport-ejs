@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/_head.ejs') %> 
+    <title>Register</title>
+</head>
+<body>
+ 
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="min-height: 8vh; ">
+        <a class="navbar-brand">Blog Website</a>
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="my-nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+        
+                <li class="nav-item" >
+                    <a class="nav-link" href="/auth/login" tabindex="4">Login</a>
+                </li> 
+    
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container d-flex align-items-center justify-content-center ">
+        <div class="jumbotron bg-dark text-white form-body ">
+
+            <% if ( typeof error != 'undefined' ) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><%= error %> </strong> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+            <% } %>
+
+            <form method="post" action="">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" required class="form-control" type="text" name="firstName" value="<%= typeof data != 'undefined' ? data.firstName : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName"  required class="form-control" type="text" name="lastName" value="<%= typeof data != 'undefined' ? data.lastName : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" required class="form-control" Emails="form-control" type="text" name="email" value="<%= typeof data != 'undefined' ? data.email : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" required class="form-control" type="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="cpassword">Confirm Password</label>
+                    <input id="cpassword" required class="form-control" type="password" name="cpassword">
+                </div>
+                <button class="btn btn-danger w-100 mt-3" type="submit">Register</button>
+            </form>
+         </div>
+     </div>
+     <%- include('./partials/_footer.ejs') %>
+</body>
+</html>

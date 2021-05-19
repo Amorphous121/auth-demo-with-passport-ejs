@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/_head.ejs') %> 
+    <title>Posts</title>
+</head>
+<body>
+    <%- include('./partials/_header.ejs' ) %>
+    
+    current page =  <%= current %> 
+    total page = <%= pages %> 
+
+    <div class="container d-flex justify-content-center  ">
+        <div class="w-75">
+            <% posts.forEach(post => { %>
+                
+                <div class="card post-card my-3 ">
+                    <div class="card-body shadow " >
+                        <h5 class="card-title display-4 ml-5 mt-5"> <%= post.title %> </h5>
+                        <p class="card-text ml-5 mt-5"><%= post.content %> </p>
+                        
+                        <h3 class="ml-5 mt-5" >Comments</h3>
+                        <div class="card my-4 border-0 ml-5 mt-5 comment-body">
+                            
+                            <%for ( item of post.comments) { %>
+                                
+                                    <div class="card-body comment-card d-flex flex-row align-items-center my-3"> 
+                                        <% if (session.user == item.user._id) { %>
+                                            <a href="/comments/update/<%=item._id%>" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                                        <% } %>
+
+                                        <% if (session.user == post.user || item.user._id == session.user || session.role == 'admin' ) { %>
+                                           <form action="/comments/delete/<%=item._id%>?_method=DELETE" method="POST" >
+                                                <button type="submit" class="btn btn-danger ml-2"><i class="far fa-trash-alt" style="margin-top : -6px"></i></button>
+                                           </form>
+                                        <% } %>
+                                        <h5 class="card-title ml-4" ><%= item.user.firstName %> =>  </h5>
+                                        <p class="card-text ml-5" style="margin-top : -6px"><%= item.comment%> </p>
+                                    </div>
+                            <% }  %> 
+                        </div>
+                           
+        
+                        <div class="d-flex flex-row">
+                            
+                            <a class="btn btn-success btn-sm ml-5 " href="/posts/show/<%= post._id %> ">Read More</a>
+                            
+
+                        <% if (session.user == post.user || session.role == 'admin') { %>
+                            <div class="d-flex flex-row">
+                                
+                                <% if (session.role == 'admin' && session.user != post.user) { %>
+                                    <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                        <button class="btn btn-danger btn-sm ml-3" type="submit">Delete Post</button>
+                                    </form>
+                                    <% } else { %>
+                                        <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                            <button class="btn btn-danger btn-sm ml-3" type="submit">Delete Post</button>
+                                        </form>
+                                        <a class="btn btn-primary btn-sm ml-3 " href="/posts/edit/<%= post._id %>">Update Post </a>
+                                 <% } %> 
+                                
+                            </div>
+                            <% } %>
+                            <form action="/comments/addComment" method="POST" >
+                                <input type="hidden" name="post" value="<%= post._id%>">
+                                <input type="text" required class="ml-5" name="comment" >
+                                <button class="btn btn-secondary">Add Comment<i class="fas fa-plus-square ml-2"></i></button>
+                            </form>
+                        </div>              
+                    </div>
+                </div>
+            <% }) %>
+
+                <!-- Pagination -->
+                
+                <nav aria-label="Page navigation example">
+
+                    <% if (pages > 0) { %>
+                        <ul class="pagination text-center">
+
+                            <!-- if we have only one page then show user a page no 1 with disabled link
+                                if not then show the page no 1 with an active link
+                            -->
+                            <% if (current == 1) { %>
+                                <li class="page-item disabled"><a class="page-link" href="#" >First</a></li>
+                            <% } else { %>
+                                <li class="page-item"><a class="page-link " href="/posts/allpost?page=1&limit=5" >First</a></li>
+                            <% } %> 
+
+                            <!-- To show the values of page links if current value is less than 5  the will show
+                                from 1 to current value + current value + 4
+                            -->
+                                <% var i = current > 5  ?  current - 4 : 1 %>  
+
+                                <!-- 
+                                    if current page is more than 5 then will show ... to the left side 
+                                 -->
+                                <% if ( i !== 1 ) { %>
+                                    <li class="disabled"><a>...</a></li>
+                                <% } %> 
+
+                                <!-- Show loop from 1 to current + 4 but not exceed more than no of pages -->
+                                <% for (; i <= (current + 4) && i <= pages; i++) { %>
+                                    
+                                    <!-- if we are on current page then show user disabled link
+                                            else we will show him a active link
+                                    -->
+                                    <% if (i == current) { %>
+                                        <li class="page-item active"><a class="page-link"><%= i %></a></li>
+                                    <% } else { %>
+                                        <li class="page-item"><a class="page-link" href="/posts/allpost?page=<%= i %>&limit=5"><%= i %></a></li>
+                                    <% } %>
+
+
+                                    <% if (i == current + 4 && i < pages) { %>
+                                        <li class="disabled page-item"><a class="page-link">...</a></li>
+                                    <% } %>
+                                <% } %>
+
+                                <!-- If we are on last page then show disabled last link or show him a active link -->
+                                <% if (current == pages) { %>
+                                    <li class="disabled page-item"><a class="page-link">Last</a></li>
+                                <% } else { %>
+                                    <li class="page-item"><a class="page-link" href="/posts/allpost?page=<%= pages %>&limit=5">Last</a></li>
+                                <% } %>
+                           
+                        </ul>
+                        
+                    <% } %>        
+                </nav>
+     
+                </div>
+    </div>
+
+    <%- include('./partials/_footer.ejs') %> 
+</body>
+</html>

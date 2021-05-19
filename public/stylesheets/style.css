@@ -1,0 +1,47 @@
+* {
+  margin : 0px;
+  padding : 0px;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.container {
+  height: 84vh;
+  overflow-y: scroll;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.navbar {
+  padding-top : 1.5rem;
+}
+
+.form-body { 
+  width : 35%;
+}
+
+.form-body input{
+  padding : 12px;
+}
+
+.post-card {
+  min-height: 10vh;
+}
+
+.comment-body {
+  max-height: 25vh; 
+  overflow-y: scroll;
+  border : 1px solid gray !important; 
+}
+
+.navbar-brand {
+  font-size: 2rem;
+  margin-top : -10px;
+}

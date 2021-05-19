@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" style="min-height: 8vh; ">
+    <a class="navbar-brand">Blog Website</a>
+    <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="my-nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/posts/allpost" tabindex="5">All Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/posts/create' tabindex="2">Creat New</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/auth/profile" tabindex="1">Profile</a>
+            </li>
+
+
+            <% if (  !session ) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/register" tabindex="3">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/login" tabindex="4">Login</a>
+                </li>
+                <% } %>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/logout" tabindex="6">Logout</a>
+                </li>
+        </ul>
+    </div>
+</nav>
